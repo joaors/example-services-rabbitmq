@@ -1,0 +1,41 @@
+  <h1>
+    Aluno
+    <small>Lista</small>
+  </h1>
+
+<div class='panel panel-primary'>
+	<!-- Search the Events   -->
+    <div class='panel-body'>
+        <div class='row'>
+            <div class="col-md-2">
+                <form (ngSubmit)="onPesquisar()" #f="ngForm" class="form-horizontal">
+                    <input type="text" class="form-control input-sm" placeholder="Localizar" name="pesquisa" [(ngModel)]="pesquisa">
+                    <span class="fa fa-search form-control-feedback"></span>
+                </form>
+            </div>            
+        </div>
+		
+	</div>
+	<div class='table-responsive'>
+        <table class="table table-striped table-bordered table-hover" *ngIf='alunos && alunos.length'>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Curso</th>
+                    <th>Semestre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let aluno of alunos' style="cursor:pointer" (click)="onSelect(aluno.id)">
+                    <td>
+                        {{aluno.nome}}
+                    </td>
+                    <td>{{aluno.sobrenome}}</td>
+                    <td>{{aluno.curso}}</td>
+                    <td>{{aluno.semestre}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
