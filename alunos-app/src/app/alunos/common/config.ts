@@ -8,7 +8,7 @@ export class Config {
 
     constructor() {
         if (environment.production) {
-            this.BASEURI = "http://192.168.56.1:8090/alunos/resources/alunos/";
+            this.BASEURI = "http://192.168.99.100:8090/alunos/resources/alunos/";
         }
     }
 }

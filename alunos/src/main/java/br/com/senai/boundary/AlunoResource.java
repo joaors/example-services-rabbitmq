@@ -22,14 +22,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import br.com.senai.model.Aluno;
-import br.com.senai.model.AlunoRepository;
 import br.com.senai.service.RabbitMQService;
 
 @Path("alunos")
 public class AlunoResource {	
-	
-	@Inject
-	AlunoRepository repository;
 	
 	@Inject
 	RabbitMQService rabbit;
