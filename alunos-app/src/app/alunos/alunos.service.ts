@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs/Observable';
+import { AuthHttp }     from 'angular2-jwt';
 
 import 'rxjs';
 
@@ -10,19 +11,19 @@ import { Config } from './common/config';
 @Injectable()
 export class AlunosService { 
 
-  constructor(private _http: Http,
+  constructor(public _authHttp: AuthHttp,
   				private _config: Config) {}
 
 
   	getAlunos(): Observable<Aluno[]> {
-		return this._http.get(this._config.BASEURI)
+		return this._authHttp.get(this._config.BASEURI)
 			.map((response: Response) => <Aluno[]>response.json())
 			.do(data => console.log("All: " + JSON.stringify(data)))
 			.catch(this.handleError);
 	}
 
 	getAluno(id: number): Observable<Aluno> {
-		return this._http.get(this._config.BASEURI+id)
+		return this._authHttp.get(this._config.BASEURI+id)
 			.map((response: Response) => <Aluno>response.json())
 			.do(data => console.log("Aluno:" + JSON.stringify(data)))
 			.catch(this.handleError);
@@ -34,11 +35,11 @@ export class AlunosService {
 		headers.append('Content-Type', 'application/json');
 
 		if(aluno.id == null) {
-			return this._http.post(this._config.BASEURI, JSON.stringify(aluno), {headers: headers})
+			return this._authHttp.post(this._config.BASEURI, JSON.stringify(aluno), {headers: headers})
             	.map((response: Response) => <Aluno>response.json())
             	.catch(this.handleError);
 		} else {
-			return this._http.put(this._config.BASEURI+"id", JSON.stringify(aluno), {headers: headers})
+			return this._authHttp.put(this._config.BASEURI+"id", JSON.stringify(aluno), {headers: headers})
             	.map((response: Response) => <Aluno>response.json())
             	.catch(this.handleError);
 		}		
