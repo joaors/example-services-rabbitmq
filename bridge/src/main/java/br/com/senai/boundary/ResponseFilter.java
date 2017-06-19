@@ -18,7 +18,7 @@ public class ResponseFilter implements ContainerResponseFilter{
         LOG.info( "Filtering REST Response" );
         responseCtx.getHeaders().add( "Access-Control-Allow-Origin", "*" );    // Limitar aqui os IPs com acesso
         responseCtx.getHeaders().add( "Access-Control-Allow-Credentials", "true" );
-        responseCtx.getHeaders().add( "Access-Control-Allow-Headers", "Content-Type" );
+        responseCtx.getHeaders().add( "Access-Control-Allow-Headers", "Content-Type, Authorization" );
         responseCtx.getHeaders().add( "Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
     }
     
