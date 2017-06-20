@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 public class AlunoRepository {
 
@@ -46,4 +47,14 @@ public class AlunoRepository {
             Aluno aluno = em.find(Aluno.class, id);
             return Optional.ofNullable(aluno);
 	}
+        
+	public Optional<Aluno> getByNome(String nome) {
+            Query q = em.createQuery("select a from Aluno a where a.nome = :nome");
+            q.setParameter("nome", nome);  
+            try {
+                return Optional.ofNullable((Aluno) q.getSingleResult());   
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+	}    
 }

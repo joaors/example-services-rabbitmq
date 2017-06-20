@@ -12,6 +12,6 @@ import javax.inject.Qualifier;
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE})
 public @interface Message {
 	Type value();
-	enum Type{INSERT, UPDATE, DELETE, LIST, RETRIEVE}
+	enum Type{INSERT, UPDATE, DELETE, LIST, RETRIEVE, GET_BY_LOGIN}
 
 }
