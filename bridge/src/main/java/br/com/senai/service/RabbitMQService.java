@@ -12,14 +12,19 @@ import com.rabbitmq.client.*;
 
 public class RabbitMQService {
 
+	public static final String ALUNOS_PERSIST = "alunos.persist";
+	public static final String AUTHORIZATION = "authorization";	
+	
 	private Connection connection;
-	private Channel channel;
-	private String requestQueueName = "alunos.persist";
+	private Channel channel;	
+	
 	private String replyQueueName;
 
 	private void connect() throws IOException, TimeoutException {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("192.168.99.100");
+		factory.setHost("10.1.26.174");
+		factory.setUsername("admin");
+		factory.setPassword("admin");
 		factory.setConnectionTimeout(5000);
 
 		connection = factory.newConnection();
@@ -28,7 +33,7 @@ public class RabbitMQService {
 		replyQueueName = channel.queueDeclare().getQueue();		  
 	}
 
-	private String call(String message, String type) throws IOException, InterruptedException, TimeoutException {
+	private String call(String message, String type, String destination) throws IOException, InterruptedException, TimeoutException {
 		String corrId = UUID.randomUUID().toString();
 		Map<String, Object> headers = new HashMap<>();
 		headers.put("type", type);
@@ -39,7 +44,7 @@ public class RabbitMQService {
 				.headers(headers)
 				.replyTo(replyQueueName)
 				.build();
-		channel.basicPublish("", requestQueueName, props, message.getBytes("UTF-8"));
+		channel.basicPublish("", destination, props, message.getBytes("UTF-8"));
 
 		BlockingQueue<String> response = new ArrayBlockingQueue<String>(1);
 
@@ -59,11 +64,11 @@ public class RabbitMQService {
 		return response.take();
 	}
 
-	public String send(String message, String type) throws IOException, InterruptedException, TimeoutException {
+	public String send(String message, String type, String destination) throws IOException, InterruptedException, TimeoutException {
 		String response = null;
 		try {
 			System.out.println(" [x] Requesting "+type+" "+message);
-			response = call(message, type);
+			response = call(message, type, destination);
 			System.out.println(" [.] Got '" + response + "'");     
 		} finally {
 			try {

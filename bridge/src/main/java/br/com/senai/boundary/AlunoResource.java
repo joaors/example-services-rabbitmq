@@ -34,13 +34,13 @@ public class AlunoResource {
 	private static final String UPDATE = "UPDATE";
 	private static final String DELETE = "DELETE";
 	private static final String LIST = "LIST";
-	private static final String RETRIEVE = "RETRIEVE";	
+	private static final String RETRIEVE = "RETRIEVE";
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Aluno> retornaAlunos() {
 		try {
-			String list = rabbit.send("nada", LIST);
+			String list = rabbit.send("nada", LIST, RabbitMQService.ALUNOS_PERSIST);
 			Type listType = new TypeToken<ArrayList<Aluno>>(){}.getType();
 			List<Aluno> alunos = new Gson().fromJson(list, listType);
 			return alunos;
@@ -55,7 +55,7 @@ public class AlunoResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Aluno inserirAluno(JsonObject aluno) {
 		try {
-			String added = rabbit.send(aluno.toString(), INSERT);
+			String added = rabbit.send(aluno.toString(), INSERT, RabbitMQService.ALUNOS_PERSIST);
 			Gson gson = new Gson();
 			Aluno toAdd = gson.fromJson(added, Aluno.class);		
 			return toAdd;
@@ -71,7 +71,7 @@ public class AlunoResource {
 	public void delete(@PathParam(value = "id") String id) {
 		try {
 			JsonObject toDelete = Json.createObjectBuilder().add("id", id).build();
-			rabbit.send(toDelete.toString(), DELETE);
+			rabbit.send(toDelete.toString(), DELETE, RabbitMQService.ALUNOS_PERSIST);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new WebApplicationException(e.getMessage()!= null ? e.getMessage() : "Erro ao deletar aluno", 500);
@@ -85,7 +85,7 @@ public class AlunoResource {
 	public Aluno retrieve(@PathParam(value = "id") String id) {
 		try {
 			JsonObject toRetrieve = Json.createObjectBuilder().add("id", id).build();
-			String alunoMessage = rabbit.send(toRetrieve.toString(), RETRIEVE);
+			String alunoMessage = rabbit.send(toRetrieve.toString(), RETRIEVE, RabbitMQService.ALUNOS_PERSIST);
 			Gson gson = new Gson();
 			Aluno aluno = gson.fromJson(alunoMessage, Aluno.class);
 			return aluno;			
@@ -101,7 +101,7 @@ public class AlunoResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Aluno update(@PathParam(value = "id") String id, JsonObject aluno) {
 		try {
-			String updated = rabbit.send(aluno.toString(), UPDATE);
+			String updated = rabbit.send(aluno.toString(), UPDATE, RabbitMQService.ALUNOS_PERSIST);
 			Gson gson = new Gson();
 			Aluno alunoUpdated = gson.fromJson(updated, Aluno.class);
 			return alunoUpdated;
