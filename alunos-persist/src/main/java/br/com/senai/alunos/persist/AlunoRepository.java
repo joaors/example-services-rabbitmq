@@ -54,6 +54,7 @@ public class AlunoRepository {
             try {
                 return Optional.ofNullable((Aluno) q.getSingleResult());   
             } catch (Exception e) {
+                e.printStackTrace();
                 return Optional.empty();
             }
 	}    
