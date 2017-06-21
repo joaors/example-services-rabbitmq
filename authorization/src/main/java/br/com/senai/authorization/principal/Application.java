@@ -19,13 +19,11 @@ import com.rabbitmq.client.Envelope;
 public class Application {
 
 	private static final String RPC_QUEUE_NAME = "authorization";
-	private String replyQueueName;
 
 	private Connection connection;
 
 	private Channel createChannel() throws IOException {
 		Channel channel = connection.createChannel();		
-		channel.basicQos(1);
 		return channel;
 	}	
 
@@ -102,14 +100,14 @@ public class Application {
 		Map<String, Object> headers = new HashMap<>();
 		headers.put("type", type);
 		Channel channel = this.createChannel();
-		replyQueueName = channel.queueDeclare().getQueue();
+		String replyQueueName = channel.queueDeclare().getQueue();
 
 		AMQP.BasicProperties props = new AMQP.BasicProperties
 				.Builder()
 				.correlationId(corrId)
 				.headers(headers)
 				.replyTo(replyQueueName)
-				.build();
+				.build();		
 		channel.basicPublish("", "alunos.persist", props, message.getBytes("UTF-8"));
 
 		BlockingQueue<String> response = new ArrayBlockingQueue<String>(1);
