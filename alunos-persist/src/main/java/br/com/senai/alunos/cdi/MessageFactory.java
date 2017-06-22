@@ -9,9 +9,9 @@ import javax.inject.Inject;
 public class MessageFactory {
 
 	
-	@Inject
-	@Any
-	private Instance<MessageType> messages;
+    @Inject
+    @Any
+    private Instance<MessageType> messages;
 	
     public MessageType getMessage(Message.Type type) {          
     	MessageLiteral literal = new MessageLiteral(type);         

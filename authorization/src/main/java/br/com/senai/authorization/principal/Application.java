@@ -29,9 +29,7 @@ public class Application {
 
 	public void run() {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("10.1.26.174");
-		factory.setUsername("admin");
-		factory.setPassword("admin");
+		factory.setHost("192.168.99.100");
 		this.connection = null;
 		try {
 			connection      = factory.newConnection();			
@@ -135,8 +133,10 @@ public class Application {
 			response = call(message, type);
 			System.out.println(" [.] Got '" + response + "'");     
 		} finally {
-			try {				
-				connection.close();
+			try {
+				if (connection != null) {
+					connection.close();
+				}
 			} catch (IOException _ignore) {}
 		}
 		return response;		

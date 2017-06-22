@@ -1,5 +1,6 @@
-package br.com.senai.alunos.persist;
+package br.com.senai.alunos.principal;
 
+import br.com.senai.alunos.persist.Application;
 import java.io.IOException;
 
 import org.jboss.weld.environment.se.Weld;

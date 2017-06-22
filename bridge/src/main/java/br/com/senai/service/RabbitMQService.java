@@ -13,7 +13,9 @@ import com.rabbitmq.client.*;
 public class RabbitMQService {
 
 	public static final String ALUNOS_PERSIST = "alunos.persist";
-	public static final String AUTHORIZATION = "authorization";	
+	public static final String AUTHORIZATION = "authorization";
+	public static final String ALUNOS_LOG = "alunos.log";
+	public static final String RABBIT_HOST = "192.168.99.100";
 	
 	private Connection connection;
 	private Channel channel;	
@@ -21,16 +23,18 @@ public class RabbitMQService {
 	private String replyQueueName;
 
 	private void connect() throws IOException, TimeoutException {
-		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("10.1.26.174");
-		factory.setUsername("admin");
-		factory.setPassword("admin");
-		factory.setConnectionTimeout(5000);
-
-		connection = factory.newConnection();
+		createConnection();
 		channel = connection.createChannel();
 
 		replyQueueName = channel.queueDeclare().getQueue();		  
+	}
+
+	private void createConnection() throws IOException, TimeoutException {
+		ConnectionFactory factory = new ConnectionFactory();
+		factory.setHost(RABBIT_HOST);
+		factory.setConnectionTimeout(5000);
+
+		connection = factory.newConnection();
 	}
 
 	private String call(String message, String type, String destination) throws IOException, InterruptedException, TimeoutException {
@@ -76,5 +80,16 @@ public class RabbitMQService {
 			} catch (IOException _ignore) {}
 		}
 		return response;		
+	}
+	
+	public void sendAsincrono(String message) throws IOException, TimeoutException {
+	    createConnection();
+		Channel channel = connection.createChannel();
+
+	    channel.queueDeclare(ALUNOS_LOG, false, false, false, null);	    
+	    channel.basicPublish("", ALUNOS_LOG, null, message.getBytes("UTF-8"));
+	    System.out.println(" [x] Sent '" + message + "'");
+
+	    channel.close();	
 	}
 }
