@@ -56,6 +56,7 @@ public class LoginResource {
 			}
 			return Response.status(Status.UNAUTHORIZED).build();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		

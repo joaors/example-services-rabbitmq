@@ -40,12 +40,13 @@ public class RequestFilter  implements ContainerRequestFilter{
 			e1.printStackTrace();
 		}
 
-        if (!path.startsWith( "/autenticacao/" )) {
+        if (!path.contains( "autenticacao" )) {
             String authToken = requestCtx.getHeaderString("authorization");
     		try {
     			Map<String, Object> map = JWTUtil.decode(authToken);
     			rabbitService.sendAsincrono((String) map.get("user"));
-    		} catch (Exception e) {        
+    		} catch (Exception e) {
+    			e.printStackTrace();
     			requestCtx.abortWith( createUnauthorized() );
     		}    		
         }
