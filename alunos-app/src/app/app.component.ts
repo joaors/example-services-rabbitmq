@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Alunos App';
+
+  logout() {
+    localStorage.removeItem("id_token");
+  }
 }
