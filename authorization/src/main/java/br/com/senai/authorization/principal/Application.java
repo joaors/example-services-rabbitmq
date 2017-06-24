@@ -89,9 +89,7 @@ public class Application {
 
 	private String call(String message, String type) throws IOException, InterruptedException, TimeoutException {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("10.1.26.174");
-		factory.setUsername("admin");
-		factory.setPassword("admin");
+		factory.setHost("192.168.99.100");
 		this.connection = null;
 		connection      = factory.newConnection();
 		String corrId = UUID.randomUUID().toString();
