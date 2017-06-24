@@ -1,4 +1,4 @@
-package br.com.senai.alunos.persist;
+package br.com.senai.alunos.principal;
 
 import javax.inject.Inject;
 
