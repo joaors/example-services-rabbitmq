@@ -40,7 +40,7 @@ export class AlunosListComponent {
         if(this.pesquisa == null || this.pesquisa === '') {
             this.getAlunos();
         } else {
-            this.alunos = this.alunos.filter(t => t.nome.startsWith(this.pesquisa));
+            this.alunos = this.alunos.filter(t => t.nome.startsWith(this.pesquisa) || t.sobrenome.startsWith(this.pesquisa));
         } 
     }
 

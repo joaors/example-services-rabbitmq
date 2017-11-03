@@ -16,10 +16,12 @@ import java.io.IOException;
 public class Main {
 
     private final static String QUEUE_NAME = "alunos.log";
+    
+    private final static String BROKER_HOST = System.getenv("BROKER_HOST");
 
     public static void main(String[] argv) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("192.168.99.100");
+        factory.setHost(BROKER_HOST);
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 

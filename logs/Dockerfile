@@ -1,4 +1,8 @@
-FROM anapsix/alpine-java
-MAINTAINER myNAME 
-ADD target/logs-jar-with-dependencies.jar /home/logs-jar-with-dependencies.jar
-CMD ["java","-jar","/home/logs-jar-with-dependencies.jar"]
+# Base java:8
+FROM java:8
+
+# Add jar to container
+ADD /target/logs-jar-with-dependencies.jar logs-jar-with-dependencies.jar
+
+# Entry with exec
+ENTRYPOINT exec java $JAVA_OPTS -jar /logs-jar-with-dependencies.jar

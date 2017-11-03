@@ -18,7 +18,8 @@ import com.rabbitmq.client.Envelope;
 
 public class Application {
 
-	private static final String RPC_QUEUE_NAME = "authorization";
+	private static final String RPC_QUEUE_NAME = "authorization";	
+	private static final String BROKER_HOST = System.getenv("BROKER_HOST");
 
 	private Connection connection;
 
@@ -29,7 +30,7 @@ public class Application {
 
 	public void run() {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("192.168.99.100");
+		factory.setHost(BROKER_HOST);
 		this.connection = null;
 		try {
 			connection      = factory.newConnection();			
@@ -89,7 +90,7 @@ public class Application {
 
 	private String call(String message, String type) throws IOException, InterruptedException, TimeoutException {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost("192.168.99.100");
+		factory.setHost(BROKER_HOST);
 		this.connection = null;
 		connection      = factory.newConnection();
 		String corrId = UUID.randomUUID().toString();

@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
           this._salvarToken(response);
           this.router.navigate(['/alunos/home']);
         },
-          error => {this.withErrors = true; console.log(error.text());
-        }
+        error => this.withErrors = true,
+        () => console.log('Default')        
       );
   }  
 

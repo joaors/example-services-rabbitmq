@@ -15,7 +15,7 @@ public class RabbitMQService {
 	public static final String ALUNOS_PERSIST = "alunos.persist";
 	public static final String AUTHORIZATION = "authorization";
 	public static final String ALUNOS_LOG = "alunos.log";
-	public static final String RABBIT_HOST = "192.168.99.100";
+	public static final String BROKER_HOST = System.getenv("BROKER_HOST");
 	
 	private Connection connection;
 	private Channel channel;	
@@ -31,7 +31,7 @@ public class RabbitMQService {
 
 	private void createConnection() throws IOException, TimeoutException {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setHost(RABBIT_HOST);
+		factory.setHost(BROKER_HOST);
 		factory.setConnectionTimeout(5000);
 
 		connection = factory.newConnection();

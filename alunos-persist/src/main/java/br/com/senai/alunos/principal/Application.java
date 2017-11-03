@@ -13,6 +13,7 @@ import com.rabbitmq.client.Envelope;
 import br.com.senai.alunos.cdi.Message;
 import br.com.senai.alunos.cdi.MessageFactory;
 import br.com.senai.alunos.cdi.MessageType;
+import br.com.senai.alunos.persist.AlunoRepository;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -20,22 +21,24 @@ import java.util.concurrent.TimeoutException;
 public class Application {
 
     private static final String RPC_QUEUE_NAME = "alunos.persist";
+    private static final String BROKER_HOST = System.getenv("BROKER_HOST");
 
     @Inject
     private MessageFactory mf;
 
     public void run() {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("192.168.99.100");
+        factory.setHost(BROKER_HOST);
         Connection connection = null;
         try {
+        	System.out.println(BROKER_HOST);
             connection = factory.newConnection();
             Channel channel = connection.createChannel();
 
             channel.queueDeclare(RPC_QUEUE_NAME, false, false, false, null);
 
             channel.basicQos(0);
-
+            
             System.out.println(" [x] Awaiting RPC requests");
 
             Consumer consumer = createConsumer(channel);
